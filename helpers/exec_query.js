@@ -1,20 +1,20 @@
 //Este helper lo que hace es obtener una conexión, y ejecutar la query de forma controlada.
 const pool = require("../config/mysql.js");
 function exec_query(query) {
-  pool.getConnection((err, connection) => {
-    if (err) {
-      console.error("Error in pool connection:", err);
-      return;
-    }
-    //el parametro query necesita llegar sanitizado o sanitizarse antes de lanzarse
-    connection.query(query, (err, results, fields) => {
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
       if (err) {
-        console.error("Error in query execution:", err);
-        connection.release();
-        return;
+        resolve("Error in pool connection:" + err);
       }
-      console.log("Resultados de la consulta:", results);
-      connection.release();
+      //el parametro query necesita llegar sanitizado o sanitizarse antes de lanzarse
+      connection.query(query, (err, results, fields) => {
+        if (err) {
+          connection.release();
+          reject("Error in query execution:" + err);
+        }
+        connection.release();
+        resolve(results);
+      });
     });
   });
 }
