@@ -4,13 +4,20 @@ function exec_query(query, params) {
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
       if (err) {
-        resolve("Error in pool connection:" + err);
+        resolve({
+          httpStatus: 500,
+          message: "Error in pool connection",
+          data: err,
+        });
       }
-      //el parametro query necesita llegar sanitizado o sanitizarse antes de lanzarse
       connection.query(query, params, (err, results, fields) => {
         if (err) {
           connection.release();
-          reject("Error in query execution:" + err);
+          reject({
+            httpStatus: 500,
+            message: "Error in query execution",
+            data: err,
+          });
         }
         connection.release();
         resolve(results);

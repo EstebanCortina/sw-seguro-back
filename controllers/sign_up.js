@@ -1,13 +1,21 @@
-const exec_query = require("../helpers/exec_query.js");
 const User = require("../models/user_model.JS");
-module.exports = (req, res) => {
-  console.log(req.body.user_type_id);
+module.exports = async (req, res) => {
   let new_user = new User(
-    req.body.username,
+    req.body.name,
     req.body.pass,
-    req.body.user_type_id
+    req.body.user_type_name
   );
-  new_user.create(exec_query);
-  res.status(201).send("OK");
+  let response = null;
+  try {
+    response = await new_user.create();
+    delete new_user.pass;
+    delete new_user.user_type_id;
+    res.status(201);
+  } catch (err) {
+    response = { message: err, data: [] };
+    res.status(400);
+  }
+
+  res.send(response);
 };
 
