@@ -1,5 +1,5 @@
 require("dotenv");
-const exec_query = require("../helpers/exec_query.js");
+const exec_query = require("../handlers/exec_query.js");
 const db_handler = require("../models/db_hanlder.js");
 db_handler.db = exec_query;
 module.exports = {

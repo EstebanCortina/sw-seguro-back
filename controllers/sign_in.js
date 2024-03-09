@@ -1,4 +1,4 @@
-const exec_query = require("../helpers/exec_query.js");
+const exec_query = require("../handlers/exec_query.js");
 module.exports = (req, res) => {
   exec_query("SELECT * FROM users")
     .then((results) => {
