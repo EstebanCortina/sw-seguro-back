@@ -49,14 +49,39 @@ class User extends db_handler {
 
   sign_in() {
     return new Promise((resolve, reject) => {
-      //Revisar primero si el usuario ya esta en base de datos
-      User.db("SELECT ");
-      User.db(
-        "SELECT id FROM users where name = ? AND pass = ?",
-        Object.values(this)
-      )
-        .then((find) => (find.length > 0 ? true : false))
-        .catch((err) => err);
+      //Check if user exists in database first
+      User.db("SELECT id FROM users WHERE email = ?", [this.email])
+        .then((result) => {
+          if (result.length > 0) {
+            User.db(
+              "SELECT name, email FROM users where email = ? AND pass = ?",
+              [this.email, this.pass]
+            )
+              .then((find) => {
+                if (find.length > 0) {
+                  resolve({
+                    httpStatus: 200,
+                    message: "Sign-in success",
+                    data: [{ name: find[0].name, email: find[0].email }],
+                  });
+                } else {
+                  reject({
+                    httpStatus: 401,
+                    message: "Incorrect credentials",
+                    data: [],
+                  });
+                }
+              })
+              .catch((err) => reject(err));
+          } else {
+            reject({
+              httpStatus: 404,
+              message: "User not found",
+              data: [],
+            });
+          }
+        })
+        .catch((err) => reject(err));
     });
   }
 }
