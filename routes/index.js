@@ -15,4 +15,7 @@ router.use("/sign-in", LIMITER, sign_in_router);
 const sign_up_router = require("./sign_up.js");
 router.use("/sign-up", LIMITER, sign_up_router);
 
+const users_router = require("./users.js");
+router.use("/users", users_router);
+
 module.exports = router;

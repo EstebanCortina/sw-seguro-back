@@ -1,8 +1,57 @@
 const db_handler = require("./db_hanlder.js");
 class User extends db_handler {
   static index() {
-    return User.db("SELECT * FROM users");
+    return User.db(
+      "SELECT id, name, email, is_active, user_type_name FROM users_view"
+    )
+      .then((results) => results)
+      .catch((err) => err);
   }
+
+  static find_by_id(user_id) {
+    return User.db(
+      "SELECT id, name, email, is_active, user_type_name FROM users_view WHERE id = ?",
+      [parseInt(user_id)]
+    )
+      .then((found) => found)
+      .catch((err) => err);
+  }
+
+  /**
+   * Set user's is_active property.
+   *
+   * @param {string} user_id - User id to patch.
+   * @param {number} b - New is_active status for patch.
+   * @returns {object} http formated response.
+   */
+  static set_user_is_active(user_id, state) {
+    return new Promise((resolve, reject) => {
+      User.db("UPDATE users SET is_active = ? WHERE id = ?", [
+        state,
+        parseInt(user_id),
+      ])
+        .then((query_result) => {
+          if (query_result.affectedRows > 0) {
+            resolve({
+              httpStatus: 200,
+              message: "Patch user success",
+              data: {
+                user_id: user_id,
+                is_active: state,
+              },
+            });
+          } else {
+            reject({
+              httpStatus: 404,
+              message: "User not found",
+              data: [user_id],
+            });
+          }
+        })
+        .catch((err) => reject(err));
+    });
+  }
+
   constructor(name, email, pass, user_type_name = null) {
     super();
     this.name = name;
@@ -33,7 +82,7 @@ class User extends db_handler {
             reject({
               httpStatus: 404,
               message: "User type name not found",
-              data: [],
+              data: null,
             });
           }
         })
@@ -50,11 +99,11 @@ class User extends db_handler {
   sign_in() {
     return new Promise((resolve, reject) => {
       //Check if user exists in database first
-      User.db("SELECT id FROM users WHERE email = ?", [this.email])
+      User.db("SELECT id FROM users_view WHERE email = ?", [this.email])
         .then((result) => {
           if (result.length > 0) {
             User.db(
-              "SELECT name, email FROM users where email = ? AND pass = ?",
+              "SELECT id, name, email, user_type_name FROM users_view where email = ? AND pass = ?",
               [this.email, this.pass]
             )
               .then((find) => {
@@ -62,13 +111,18 @@ class User extends db_handler {
                   resolve({
                     httpStatus: 200,
                     message: "Sign-in success",
-                    data: [{ name: find[0].name, email: find[0].email }],
+                    data: {
+                      id: find[0].id,
+                      name: find[0].name,
+                      email: find[0].email,
+                      user_type_name: find[0].user_type_name,
+                    },
                   });
                 } else {
                   reject({
                     httpStatus: 401,
                     message: "Incorrect credentials",
-                    data: [],
+                    data: null,
                   });
                 }
               })
@@ -77,7 +131,7 @@ class User extends db_handler {
             reject({
               httpStatus: 404,
               message: "User not found",
-              data: [],
+              data: null,
             });
           }
         })
