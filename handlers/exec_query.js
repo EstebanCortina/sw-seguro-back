@@ -4,7 +4,7 @@ function exec_query(query, params) {
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
       if (err) {
-        resolve({
+        reject({
           httpStatus: 500,
           message: "Error in pool connection",
           data: err,
