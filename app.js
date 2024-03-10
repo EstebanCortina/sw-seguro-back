@@ -1,20 +1,13 @@
-const { HOST, PORT } = require("./config/index.js");
+const { HOST, PORT, CORS_POLICY } = require("./config/index.js");
 const express = require("express");
 const morgan = require("morgan");
-const cors = require("cors");
 const app = express();
 
 app.use(morgan("common"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(
-  cors({
-    origin: "*",
-    methods: "GET,POST,PATCH",
-    credentials: true,
-  })
-);
+app.use(CORS_POLICY);
 
 const router = require("./routes");
 app.use("/", router);
