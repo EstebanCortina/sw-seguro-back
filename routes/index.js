@@ -1,4 +1,5 @@
 const { LIMITER } = require("../config/index.js");
+const clean_path_params = require("../middlewares/clean_path_params.js");
 const router = require("express").Router();
 
 router.get("/", (req, res) => {
@@ -16,6 +17,6 @@ const sign_up_router = require("./sign_up.js");
 router.use("/sign-up", LIMITER, sign_up_router);
 
 const users_router = require("./users.js");
-router.use("/users", users_router);
+router.use("/users", clean_path_params, users_router);
 
 module.exports = router;
