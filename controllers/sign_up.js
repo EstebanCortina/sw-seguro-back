@@ -1,4 +1,4 @@
-const User = require("../models/user_model.JS");
+const User = require("../models/user_model.js");
 module.exports = async (req, res) => {
   let response = null;
   try {
@@ -20,4 +20,3 @@ module.exports = async (req, res) => {
 
   res.send(response);
 };
-
