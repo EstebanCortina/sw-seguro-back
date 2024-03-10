@@ -1,8 +1,6 @@
 const User = require("../models/user_model.js");
-module.exports = (req, res) => {
-  let response = User.index().filter(
-    (user) => user.user_type_name === "alumno"
-  );
+module.exports = async (req, res) => {
+  let response = await User.index("alumno");
   res.status(response.httpStatus).send(response);
 };
 

@@ -1,10 +1,19 @@
 const db_handler = require("./db_hanlder.js");
 class User extends db_handler {
-  static index() {
+  static index(user_type_name) {
+    let clause = user_type_name
+      ? `WHERE user_type_name = '${user_type_name}'`
+      : "";
     return User.db(
-      "SELECT id, name, email, is_active, user_type_name FROM users_view"
+      `SELECT id, name, email, is_active, user_type_name FROM users_view ${clause}`
     )
-      .then((results) => results)
+      .then((results) => {
+        return {
+          httpStatus: 200,
+          message: "Users index success",
+          data: results,
+        };
+      })
       .catch((err) => err);
   }
 
@@ -13,7 +22,13 @@ class User extends db_handler {
       "SELECT id, name, email, is_active, user_type_name FROM users_view WHERE id = ?",
       [parseInt(user_id)]
     )
-      .then((found) => found)
+      .then((found) => {
+        return {
+          httpStatus: 200,
+          message: "User index success",
+          data: found,
+        };
+      })
       .catch((err) => err);
   }
 
