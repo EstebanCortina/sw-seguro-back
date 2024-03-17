@@ -1,0 +1,16 @@
+FROM mysql:8.3.0
+
+ENV MYSQL_DATABASE=sw_seguro_prod \
+    MYSQL_ROOT_PASSWORD=1234
+
+COPY ./sw_seguro_init.sql /docker-entrypoint-initdb.d/
+
+EXPOSE 3309
+
+FROM node:21-alpine3.18
+
+WORKDIR /
+COPY . .
+RUN npm install --production
+
+CMD ["npm", "run", "prod"]
