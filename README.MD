@@ -15,4 +15,4 @@
 
 ### [POST] /users/sign-up --> Sign-up a new user in db
 
-### [POST] /logout --> Destroy a session
+### [GET] /logout --> Destroy a session
