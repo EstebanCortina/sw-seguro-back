@@ -13,7 +13,7 @@ const validate_google_token = async (req, res, next) => {
     const payload = ticket.getPayload();
     console.log(`${payload["sub"]} - ${payload["email"]}`);
     if (req.body.email === payload["email"]) {
-      next(payload["email"]);
+      next();
     } else {
       res.status(400).send({ error: "It must be the same account" });
     }
@@ -24,4 +24,3 @@ const validate_google_token = async (req, res, next) => {
 };
 
 module.exports = validate_google_token;
-
