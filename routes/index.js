@@ -1,7 +1,6 @@
 const { LIMITER } = require("../config/index.js");
 const clean_path_params = require("../middlewares/clean_path_params.js");
 const validate_google_token = require("../middlewares/oauth2.js");
-const email_rule = require("../middlewares/email_rule.js");
 const authorizer = require("../middlewares/authorizer.js");
 const router = require("express").Router();
 
@@ -14,19 +13,12 @@ router.get("/", (req, res) => {
 });
 
 const sign_in_router = require("./sign_in.js");
-router.use("/sign-in", LIMITER, sign_in_router);
+router.use("/sign-in", validate_google_token, LIMITER, sign_in_router);
 
 const sign_up_router = require("./sign_up.js");
 router.use("/sign-up", LIMITER, sign_up_router);
-//la validacion del google token ahora solo sera en sign in
+
 const users_router = require("./users.js");
-router.use(
-  "/users",
-  //validate_google_token,
-  //email_rule,
-  authorizer,
-  clean_path_params,
-  users_router
-);
+router.use("/users", authorizer, clean_path_params, users_router);
 
 module.exports = router;
