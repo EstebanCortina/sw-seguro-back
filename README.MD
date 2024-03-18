@@ -7,9 +7,9 @@
 
 ### [GET] /users/{user_id} --> Get a specific user
 
-### [GET] /users/{user_id}/enable --> Activate an user
+### [PATCH] /users/{user_id}/enable --> Activate an user
 
-### [GET] /users/{user_id}/disable --> Deactivate an user
+### [PATCH] /users/{user_id}/disable --> Deactivate an user
 
 ### [POST] /users/sign-in --> Sign-in with a existing user in db
 
