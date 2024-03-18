@@ -3,7 +3,10 @@ const session = require("express-session");
 const RedisStore = require("connect-redis").default;
 
 let redisClient = redis.createClient({
-  url: process.env.REDIS_EXTERNAL,
+  url:
+    process.env.NODE_ENV === "prod"
+      ? process.env.REDIS_INTERNAL
+      : process.env.REDIS_EXTERNAL,
 });
 redisClient.connect().then((connect) => {
   console.log("redis connection");
@@ -20,4 +23,3 @@ module.exports = session({
     secure: process.env.NODE_ENV === "prod" ? true : false,
   },
 });
-
