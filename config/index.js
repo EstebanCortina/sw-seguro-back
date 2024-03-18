@@ -1,4 +1,4 @@
-require("dotenv");
+require("dotenv").config();
 const rateLimit = require("express-rate-limit");
 const cors = require("cors");
 const exec_query = require("../handlers/exec_query.js");
@@ -19,8 +19,7 @@ const cors_policy = cors({
 });
 
 module.exports = {
-  NODE_ENV: process.env.NODE_ENV || "development",
-  HOST: process.env.HOST || "127.0.0.1",
+  NODE_ENV: process.env.NODE_ENV || "dev",
   PORT: process.env.PORT || 3000,
   LIMITER: limiter,
   CORS_POLICY: cors_policy,

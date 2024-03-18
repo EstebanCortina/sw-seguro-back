@@ -3,6 +3,6 @@ FROM mysql:8.3.0
 ENV MYSQL_DATABASE=sw_seguro_prod \
     MYSQL_ROOT_PASSWORD=28953ca4-1873-430a-8d30-14c9fc643aa7
 
-COPY ./sw_seguro_init.sql /docker-entrypoint-initdb.d/
+COPY ./sw_seguro_prod_init.sql /docker-entrypoint-initdb.d/
 
-EXPOSE 3309
+EXPOSE 3306

@@ -1,5 +1,4 @@
 const { createPool } = require("mysql2");
-
 const pool = createPool({
   host: process.env.MYSQL_HOST || "127.0.0.1",
   port: process.env.MYSQL_PORT || 3309,
@@ -26,4 +25,3 @@ pool.on("error", (err) => {
 });
 
 module.exports = pool;
-
