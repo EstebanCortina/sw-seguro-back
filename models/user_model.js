@@ -1,11 +1,9 @@
 const db_handler = require("./db_hanlder.js");
 class User extends db_handler {
-  static index(user_type_name) {
-    let clause = user_type_name
-      ? `WHERE user_type_name = '${user_type_name}'`
-      : "";
+  static index(except_id) {
+    let exlude_self = except_id ? `WHERE id <> '${except_id}'` : "";
     return User.db(
-      `SELECT id, name, email, is_active, user_type_name FROM users_view ${clause}`
+      `SELECT id, name, email, is_active, user_type_name FROM users_view ${exlude_self}`
     )
       .then((results) => {
         return {
@@ -36,15 +34,19 @@ class User extends db_handler {
    * Set user's is_active property.
    *
    * @param {string} user_id - User id to patch.
-   * @param {number} b - New is_active status for patch.
+   * @param {number} state - New is_active status for patch.
    * @returns {object} http formated response.
    */
   static set_user_is_active(user_id, state) {
+    let exclude_teacher =
+      state === 0
+        ? "AND user_type_id <> (SELECT id FROM user_types WHERE name = 'profesor')"
+        : "";
     return new Promise((resolve, reject) => {
-      User.db("UPDATE users SET is_active = ? WHERE id = ?", [
-        state,
-        parseInt(user_id),
-      ])
+      User.db(
+        `UPDATE users SET is_active = ? WHERE id = ? ${exclude_teacher}`,
+        [state, parseInt(user_id)]
+      )
         .then((query_result) => {
           if (query_result.affectedRows > 0) {
             resolve({
@@ -58,8 +60,8 @@ class User extends db_handler {
           } else {
             reject({
               httpStatus: 404,
-              message: "User not found",
-              data: [user_id],
+              message: "User not found or unavailable",
+              data: user_id,
             });
           }
         })
@@ -118,7 +120,7 @@ class User extends db_handler {
         .then((result) => {
           if (result.length > 0) {
             User.db(
-              "SELECT id, name, email, user_type_name FROM users_view where email = ? AND pass = ?",
+              "SELECT id, name, email, user_type_name FROM users_view WHERE email = ? AND pass = ? AND is_active = 1",
               [this.email, this.pass]
             )
               .then((find) => {
@@ -136,7 +138,7 @@ class User extends db_handler {
                 } else {
                   reject({
                     httpStatus: 401,
-                    message: "Incorrect credentials",
+                    message: "Incorrect credentials or pending aprove",
                     data: null,
                   });
                 }
