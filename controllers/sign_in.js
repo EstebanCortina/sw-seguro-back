@@ -8,6 +8,7 @@ module.exports = async (req, res) => {
     req.session.user_id = response["data"].id;
     req.session.email = response["data"].email;
     req.session.user_type_name = response["data"].user_type_name;
+    console.log(req.session);
     res.status(response.httpStatus);
   } catch (err) {
     response = err;

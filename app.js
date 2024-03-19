@@ -16,22 +16,6 @@ app.use(redisSession);
 const router = require("./routes");
 app.use("/", router);
 
-app.get("/logout", (req, res) => {
-  // Destruir la sesión actual
-  req.session.destroy((err) => {
-    if (err) {
-      console.error("Error while logout:", err);
-      res.status(500).send("Server Error");
-    } else {
-      res.status(200).send({
-        httpStatus: 200,
-        message: "Logout success",
-        data: null,
-      });
-    }
-  });
-});
-
 app.listen(PORT, () => {
   console.log(`Running on ${PORT}`);
 });

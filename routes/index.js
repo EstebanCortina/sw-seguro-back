@@ -18,6 +18,9 @@ router.use("/sign-in", validate_google_token, sign_in_router);
 const sign_up_router = require("./sign_up.js");
 router.use("/sign-up", sign_up_router);
 
+const logout_router = require("./logout.js");
+router.use("/logout", logout_router);
+
 const users_router = require("./users.js");
 router.use("/users", authorizer, clean_path_params, users_router);
 

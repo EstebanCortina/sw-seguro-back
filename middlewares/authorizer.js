@@ -1,4 +1,6 @@
 module.exports = (req, res, next) => {
+  console.log("authorizer");
+  console.log(req.session);
   if (req.session.signIn) {
     console.log(req.session);
     next();
