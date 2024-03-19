@@ -10,6 +10,7 @@ const limiter = rateLimit({
   max: 20,
   message:
     "Demasiadas solicitudes desde esta dirección IP, por favor intenta nuevamente en 15 minutos.",
+  trustProxy: true,
 });
 
 const cors_policy = cors({
