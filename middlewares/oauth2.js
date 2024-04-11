@@ -11,7 +11,7 @@ const validate_google_token = async (req, res, next) => {
       audience: process.env.OAUTH2_CLIENT_ID,
     });
     const payload = ticket.getPayload();
-    console.log(`${payload["sub"]} - ${payload["email"]}`);
+    console.log(`OAUTH2: ${payload["sub"]} - ${payload["email"]}`);
     if (req.body.email === payload["email"]) {
       next();
     } else {

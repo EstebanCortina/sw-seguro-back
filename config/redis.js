@@ -8,9 +8,9 @@ let redisClient = redis.createClient({
       ? process.env.REDIS_INTERNAL
       : process.env.REDIS_EXTERNAL,
 });
-redisClient.connect().then((connect) => {
-  console.log("redis connection");
-});
+// redisClient.connect().then((connect) => {
+//   console.log("redis connection");
+// });
 
 module.exports = session({
   store: new RedisStore({
@@ -21,5 +21,6 @@ module.exports = session({
   saveUninitialized: false,
   cookie: {
     secure: process.env.NODE_ENV === "prod" ? true : false,
+    //path: "/users",
   },
 });

@@ -8,10 +8,10 @@ app.use(morgan(NODE_ENV === "prod" ? "combined" : "common"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.set("trust proxy", true);
+//app.set("trust proxy", true);
 app.use(CORS_POLICY);
 
-app.use(redisSession);
+//app.use(redisSession);
 
 const router = require("./routes");
 app.use("/", router);
