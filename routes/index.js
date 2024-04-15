@@ -13,10 +13,10 @@ router.get("/", (req, res) => {
 });
 
 const sign_in_router = require("./sign_in.js");
-router.use("/sign-in", validate_google_token, sign_in_router);
+router.use("/sign-in", LIMITER, validate_google_token, sign_in_router);
 
 const sign_up_router = require("./sign_up.js");
-router.use("/sign-up", sign_up_router);
+router.use("/sign-up", LIMITER, sign_up_router);
 
 const logout_router = require("./logout.js");
 router.use("/logout", logout_router);
