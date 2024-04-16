@@ -24,7 +24,7 @@ module.exports = session({
   cookie: {
     sameSite: 'None',
     secure: false,
-    httpOnly: false,
+    httpOnly: true,
     maxAge: 3600000
   },
 });
