@@ -3,7 +3,7 @@ const db_handler = require("./db_hanlder.js");
 class Product extends db_handler {
   static index() {
     return super
-      .db(`SELECT id, name, price, stock FROM products`)
+      .db(`SELECT * FROM products`)
       .then((results) => {
         return {
           httpStatus: 200,
