@@ -13,18 +13,19 @@ redisClient.connect().then((connect) => {
 });
 
 module.exports = session({
+  secret: process.env.EXPRESS_SESSION_SECRET,
+  credentials: true,
+  name: "loginCookie",
   store: new RedisStore({
     client: redisClient,
     ttl: 86400
   }),
-  secret: process.env.EXPRESS_SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  name: "loginCookie",
   cookie: {
-    sameSite: 'None',
-    secure: false,
+    secure: "auto",
     httpOnly: true,
-    maxAge: 3600000
+    maxAge: 3600000,
+    sameSite: "none"
   },
 });
