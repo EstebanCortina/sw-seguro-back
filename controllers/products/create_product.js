@@ -5,7 +5,12 @@ module.exports = async (req, res) => {
   }
 
   try {
-    let product = new Product(req.body.name, req.body.price, req.body.stock);
+    let product = new Product(
+      req.body.name,
+      req.body.price,
+      req.body.img_url,
+      req.body.stock
+    );
     console.log(product);
     let response = await product.create();
     res.status(response.httpStatus).send(response);
