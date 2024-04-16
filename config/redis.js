@@ -22,5 +22,6 @@ module.exports = session({
   saveUninitialized: false,
   cookie: {
     secure: process.env.NODE_ENV === "prod" ? true : false,
+    httpOnly: false
   },
 });
