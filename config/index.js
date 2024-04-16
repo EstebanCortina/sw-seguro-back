@@ -14,7 +14,7 @@ const limiter = rateLimit({
 });
 
 const cors_policy = cors({
-  origin: "*",
+  origin: "http://localhost:5500",
   methods: "GET,POST,PATCH",
   credentials: true,
 });

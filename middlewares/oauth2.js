@@ -2,6 +2,7 @@ const { OAuth2Client } = require("google-auth-library");
 const client = new OAuth2Client(process.env.OAUTH2_CLIENT_ID);
 
 const validate_google_token = async (req, res, next) => {
+  console.log(req.headers)
   const authHeader = req.headers["authorization"];
   const token = authHeader.split(" ")[1];
 
