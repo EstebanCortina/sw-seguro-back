@@ -20,8 +20,11 @@ module.exports = session({
   secret: process.env.EXPRESS_SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
+  name: "loginCookie",
   cookie: {
+    sameSite: 'None',
     secure: false,
-    httpOnly: false
+    httpOnly: false,
+    maxAge: 3600000
   },
 });
