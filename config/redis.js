@@ -15,6 +15,7 @@ redisClient.connect().then((connect) => {
 module.exports = session({
   store: new RedisStore({
     client: redisClient,
+    ttl: 86400
   }),
   secret: process.env.EXPRESS_SESSION_SECRET,
   resave: false,

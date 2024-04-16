@@ -24,4 +24,10 @@ router.use("/logout", logout_router);
 const users_router = require("./users.js");
 router.use("/users", authorizer, clean_path_params, users_router);
 
+const products_router = require("./products.js");
+router.use("/products", authorizer, products_router);
+
+const sells_router = require("./sells.js")
+router.use("/sells", authorizer, sells_router);
+
 module.exports = router;
