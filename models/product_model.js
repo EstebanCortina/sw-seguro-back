@@ -58,10 +58,11 @@ class Product extends db_handler {
       .catch((err) => err);
   }
 
-  constructor(name, price, stock) {
+  constructor(name, price, img_url, stock) {
     super();
     this.name = name;
     this.price = price;
+    this.img_url = img_url
     this.stock = stock;
   }
 
