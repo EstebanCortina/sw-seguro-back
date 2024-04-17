@@ -68,7 +68,7 @@ class Product extends db_handler {
   create() {
     return new Promise((resolve, reject) => {
       Product.db(
-        "INSERT INTO products (name, price, img_url,stock) VALUES (?, ?, ?, ?)",
+        "INSERT INTO products (name, price, img_url, stock) VALUES (?, ?, ?, ?)",
         Object.values(this)
       )
         .then((query_result) =>
