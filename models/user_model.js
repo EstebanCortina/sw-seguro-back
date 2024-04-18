@@ -38,13 +38,9 @@ class User extends db_handler {
    * @returns {object} http formated response.
    */
   static set_user_is_active(user_id, state) {
-    let exclude_teacher =
-      state === 0
-        ? "AND user_type_id <> (SELECT id FROM user_types WHERE name = 'profesor')"
-        : "";
     return new Promise((resolve, reject) => {
       User.db(
-        `UPDATE users SET is_active = ? WHERE id = ? ${exclude_teacher}`,
+        `UPDATE users SET is_active = ? WHERE id = ?`,
         [state, parseInt(user_id)]
       )
         .then((query_result) => {
