@@ -14,7 +14,7 @@ const limiter = rateLimit({
 });
 
 const cors_policy = cors({
-  origin: "*",
+  origin: "https://sw-seguro-front.onrender.com",
   methods: "GET,POST,PATCH",
   credentials: true,
 });
